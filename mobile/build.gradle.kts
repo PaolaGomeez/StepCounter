@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.stepcounter"
+    namespace = "edu.sdgku.stepcounter"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1
@@ -12,12 +12,13 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.stepcounter"
-        minSdk = 30
+        applicationId = "edu.sdgku.stepcounter"
+        minSdk = 37
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -33,26 +34,26 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    useLibrary("wear-sdk")
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
+    implementation(libs.play.services.wearable)
+    implementation(libs.appcompat)
+    implementation(libs.core.ktx)
+    implementation(libs.material)
+
     implementation(platform(libs.compose.bom))
     implementation(libs.activity.compose)
-    implementation(libs.compose.foundation)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.ui.tooling)
-    implementation(libs.core.splashscreen)
-    implementation(libs.play.services.wearable)
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
-    implementation(libs.wear.tooling.preview)
-    androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.ui.test.junit4)
-    debugImplementation(libs.ui.test.manifest)
+    implementation("androidx.compose.material3:material3")
     debugImplementation(libs.ui.tooling)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.ext.junit)
 }

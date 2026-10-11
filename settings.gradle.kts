@@ -23,5 +23,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "StepCounter"
-include(":app")
- 
+include(":wear")
+include(":mobile")

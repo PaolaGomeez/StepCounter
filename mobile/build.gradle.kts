@@ -1,59 +1,59 @@
-plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.compose)
-}
+    plugins {
+        alias(libs.plugins.android.application)
+        alias(libs.plugins.kotlin.compose)
+    }
 
-android {
-    namespace = "edu.sdgku.stepcounter"
-    compileSdk {
-        version = release(37) {
-            minorApiLevel = 1
+    android {
+        namespace = "edu.sdgku.stepcounter"
+        compileSdk {
+            version = release(37) {
+                minorApiLevel = 1
+            }
+        }
+
+        defaultConfig {
+            applicationId = "edu.sdgku.stepcounter"
+            minSdk = 37
+            targetSdk = 37
+            versionCode = 1
+            versionName = "1.0"
+
+            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        }
+
+        buildTypes {
+            release {
+                isMinifyEnabled = false
+                proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+                )
+            }
+        }
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_11
+            targetCompatibility = JavaVersion.VERSION_11
+        }
+        buildFeatures {
+            compose = true
         }
     }
 
-    defaultConfig {
-        applicationId = "edu.sdgku.stepcounter"
-        minSdk = 37
-        targetSdk = 37
-        versionCode = 1
-        versionName = "1.0"
+    dependencies {
+        implementation(libs.play.services.wearable)
+        implementation(libs.appcompat)
+        implementation(libs.core.ktx)
+        implementation(libs.material)
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        implementation(platform(libs.compose.bom))
+        implementation(libs.activity.compose)
+        implementation(libs.ui)
+        implementation(libs.ui.graphics)
+        implementation(libs.ui.tooling.preview)
+        implementation("androidx.compose.material3:material3")
+        debugImplementation(libs.ui.tooling)
+
+        testImplementation(libs.junit)
+        androidTestImplementation(libs.espresso.core)
+        androidTestImplementation(libs.ext.junit)
     }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    buildFeatures {
-        compose = true
-    }
-}
-
-dependencies {
-    implementation(libs.play.services.wearable)
-    implementation(libs.appcompat)
-    implementation(libs.core.ktx)
-    implementation(libs.material)
-
-    implementation(platform(libs.compose.bom))
-    implementation(libs.activity.compose)
-    implementation(libs.ui)
-    implementation(libs.ui.graphics)
-    implementation(libs.ui.tooling.preview)
-    implementation("androidx.compose.material3:material3")
-    debugImplementation(libs.ui.tooling)
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(libs.ext.junit)
-}

@@ -17,9 +17,12 @@ import androidx.compose.ui.draganddrop.DragAndDropEvent
 import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.toAndroidDragEvent
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.ExperimentalFoundationApi
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GoalDropTarget(
+
     modifier: Modifier = Modifier,
     onGoalDropped: (Int) -> Unit,
     content: @Composable () -> Unit

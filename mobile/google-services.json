@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "498519389144",
+    "project_id": "stepcounter-ce40d",
+    "storage_bucket": "stepcounter-ce40d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498519389144:android:f73b9e04c6696a3400b8ad",
+        "android_client_info": {
+          "package_name": "edu.sdgku.stepcounter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc4CHajT8pPsvBYc2CsWw_xhnlAlnuOnA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,7 @@
     plugins {
         alias(libs.plugins.android.application)
         alias(libs.plugins.kotlin.compose)
+        id("com.google.gms.google-services")
     }
 
     android {
@@ -40,6 +41,7 @@
     }
 
     dependencies {
+        implementation(project(":shared"))
         implementation(libs.play.services.wearable)
         implementation(libs.appcompat)
         implementation(libs.core.ktx)

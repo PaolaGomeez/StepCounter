@@ -1,6 +1,7 @@
 package edu.sdgku.stepcounter
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,28 +25,43 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import edu.sdgku.stepcounter.shared.data.FirebaseRepository
+import androidx.compose.runtime.DisposableEffect
 
 class MainActivity : ComponentActivity() {
 
-    override fun onCreate(
-        savedInstanceState: Bundle?
-    ) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val repository = FirebaseRepository()
 
         setContent {
             MaterialTheme {
-                PhoneCompanionApp()
+                PhoneCompanionApp(repository = repository)
             }
         }
     }
 }
 
 @Composable
-fun PhoneCompanionApp() {
+fun PhoneCompanionApp(repository: FirebaseRepository) {
     val context = LocalContext.current
     var stepsGoal by remember { mutableIntStateOf(10000) }
     var sendStatus by remember { mutableStateOf("Not Sent") }
 
+    DisposableEffect(repository) {
+        val registration = repository.listenToFitnessData(
+            onDataChanged = { fitnessData ->
+                stepsGoal = fitnessData.dailyGoal.toInt()
+                sendStatus = "Goal received from Firebase: ${fitnessData.dailyGoal}"
+            },
+            onError = { exception ->
+                sendStatus = "Firebase listener error: " + (exception.message ?: "Unknown error")
+            }
+        )
+        onDispose { registration.remove() }
+    }
+    
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,26 +84,18 @@ fun PhoneCompanionApp() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Button(
-                onClick = {
-                    if (stepsGoal > 500) {
-                        stepsGoal -= 500
-                    }
-                }
-            ) {
+            Button(onClick = { if (stepsGoal > 500) stepsGoal -= 500 }) {
                 Text("-")
             }
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = { stepsGoal += 500 }
-            ) {
+            Spacer(modifier = Modifier.width(16.dp))
+            Button(onClick = { stepsGoal += 500 }) {
                 Text("+")
             }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
 
+        // Data Layer (Assignments 1 and 2) - unchanged
         Button(onClick = {
             sendStatus = "Sending..."
             sendStepsGoalToWatch(
@@ -97,6 +106,26 @@ fun PhoneCompanionApp() {
             )
         }) {
             Text("Send to Watch")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Cloud Firestore (Assignment 3)
+        Button(onClick = {
+            sendStatus = "Saving to Firebase..."
+            repository.updateDailyGoal(
+                dailyGoal = stepsGoal.toLong(),
+                onSuccess = {
+                    Log.d("SharedFirebase", "Goal $stepsGoal saved from mobile")
+                    sendStatus = "Saved $stepsGoal in Firebase"
+                },
+                onError = { exception ->
+                    Log.e("SharedFirebase", "Could not save goal", exception)
+                    sendStatus = "Firebase error: " + (exception.message ?: "Unknown error")
+                }
+            )
+        }) {
+            Text("Save to Firebase")
         }
 
         Spacer(modifier = Modifier.height(16.dp))

@@ -9,3 +9,6 @@ fun WindowSizeClass.label(): String = when {
     isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND) -> "Medium"
     else -> "Compact"
 }
+
+
+

@@ -53,6 +53,12 @@ fun PhoneCompanionApp(repository: FirebaseRepository) {
     val onDecrease = { if (stepsGoal > 500) stepsGoal -= 500 }
     val onIncrease = { stepsGoal += 500 }
 
+    // Drop = local goal only. No Save, no Send.
+    val onGoalDropped: (Int) -> Unit = { dropped ->
+        stepsGoal = dropped.coerceAtLeast(500)
+        sendStatus = "Dropped preset $dropped (not saved yet)"
+    }
+
     val onSendToWatch = {
         sendStatus = "Sending..."
         sendStepsGoalToWatch(
@@ -79,9 +85,7 @@ fun PhoneCompanionApp(repository: FirebaseRepository) {
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(id = R.string.app_name)) },
-                actions = {
-                    Text(text = layoutLabel, modifier = Modifier.padding(end = 16.dp))
-                }
+                actions = { Text(text = layoutLabel, modifier = Modifier.padding(end = 16.dp)) }
             )
         }
     ) { innerPadding ->
@@ -95,7 +99,9 @@ fun PhoneCompanionApp(repository: FirebaseRepository) {
                     onDecrease = onDecrease,
                     onIncrease = onIncrease,
                     onSendToWatch = onSendToWatch,
-                    onSaveToFirebase = onSaveToFirebase
+                    onSaveToFirebase = onSaveToFirebase,
+                    extraEditorContent = { GoalPresetRow(modifier = Modifier.padding(top = 16.dp)) },
+                    onGoalDropped = onGoalDropped
                 )
             } else {
                 CompactDashboard(

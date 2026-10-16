@@ -1,15 +1,16 @@
 package edu.sdgku.stepcounter.ui.dashboard
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
+// Phone: editor only, plain goal number, no presets, no drop target.
 @Composable
 fun CompactDashboard(
     stepsGoal: Int,
@@ -18,13 +19,12 @@ fun CompactDashboard(
     onDecrease: () -> Unit,
     onIncrease: () -> Unit,
     onSendToWatch: () -> Unit,
-    onSaveToFirebase: () -> Unit,
-    onGoalDropped: ((Int) -> Unit)? = null
+    onSaveToFirebase: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()) // phone in landscape: content can scroll
+            .verticalScroll(rememberScrollState())
     ) {
         Text(
             text = "Layout: $layoutLabel",
@@ -43,8 +43,7 @@ fun CompactDashboard(
             onIncrease = onIncrease,
             onSendToWatch = onSendToWatch,
             onSaveToFirebase = onSaveToFirebase,
-            modifier = Modifier.fillMaxSize(),
-            onGoalDropped = onGoalDropped
+            modifier = Modifier.fillMaxSize()
         )
     }
 }

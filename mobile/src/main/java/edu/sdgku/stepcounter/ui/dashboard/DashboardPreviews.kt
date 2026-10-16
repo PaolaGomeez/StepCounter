@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import edu.sdgku.stepcounter.shared.model.FitnessData
 
-@Preview(name = "Compact Phone", widthDp = 360, heightDp = 800)
+@Preview(name = "Compact Phone", widthDp = 360, heightDp = 800, showBackground = true)
 @Composable
 private fun CompactDashboardPreview() {
     MaterialTheme {
@@ -21,15 +21,15 @@ private fun CompactDashboardPreview() {
     }
 }
 
-@Preview(name = "Wide Tablet", widthDp = 840, heightDp = 600)
+@Preview(name = "Wide Tablet", widthDp = 1280, heightDp = 800, showBackground = true)
 @Composable
 private fun WideDashboardPreview() {
     MaterialTheme {
         WideDashboard(
-            stepsGoal = 10000,
-            sendStatus = "Goal sent Watch...",
+            stepsGoal = 12000,
+            sendStatus = "Dropped preset 12000 (not saved yet)",
             layoutLabel = "Expanded",
-            cloudData = FitnessData(dailyGoal = 10000, steps = 0, heartRate = 72),
+            cloudData = FitnessData(dailyGoal = 11000, steps = 0, heartRate = 72),
             onDecrease = {},
             onIncrease = {},
             onSendToWatch = {},

@@ -12,7 +12,7 @@
       </SelectionState>
       <SelectionState runConfigName="mobile">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2026-10-13T07:07:36.024183600Z">
+        <DropdownSelection timestamp="2026-10-16T00:28:13.386530300Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Paola\.android\avd\Pixel_8.avd" />

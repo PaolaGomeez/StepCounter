@@ -41,6 +41,7 @@ fun GoalEditorPane(
         extraContent()
 
         SyncActions(
+            showsStatus = showStatusHere,
             sendStatus = sendStatus,
             onSendToWatch = onSendToWatch,
             onSaveToFirebase = onSaveToFirebase,

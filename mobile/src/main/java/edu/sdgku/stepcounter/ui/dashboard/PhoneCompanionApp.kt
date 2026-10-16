@@ -32,7 +32,6 @@ fun PhoneCompanionApp(repository: FirebaseRepository) {
     var sendStatus by remember { mutableStateOf("Not Sent") }
     var cloudData by remember { mutableStateOf<FitnessData?>(null) }
 
-    // WindowSizeClass: decides phone (Column) vs tablet (Row)
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val isWide = windowSizeClass.isWide()
     val layoutLabel = windowSizeClass.label()
@@ -45,7 +44,7 @@ fun PhoneCompanionApp(repository: FirebaseRepository) {
                 sendStatus = "Goal received from Firebase: $stepsGoal"
             },
             onError = { exception ->
-                sendStatus = "Firebase error: " + (exception.message ?: "Unknown error")
+                sendStatus = "Firebase listener error: " + (exception.message ?: "Unknown error")
             }
         )
         onDispose { listenerRegistration.remove() }
@@ -53,11 +52,6 @@ fun PhoneCompanionApp(repository: FirebaseRepository) {
 
     val onDecrease = { if (stepsGoal > 500) stepsGoal -= 500 }
     val onIncrease = { stepsGoal += 500 }
-
-    val onGoalDropped: (Int) -> Unit = { dropped ->
-        stepsGoal = dropped.coerceAtLeast(minimumValue = 500)
-        sendStatus = "Dropped preset $dropped (not saved yet)"
-    }
 
     val onSendToWatch = {
         sendStatus = "Sending..."
@@ -101,9 +95,7 @@ fun PhoneCompanionApp(repository: FirebaseRepository) {
                     onDecrease = onDecrease,
                     onIncrease = onIncrease,
                     onSendToWatch = onSendToWatch,
-                    onSaveToFirebase = onSaveToFirebase,
-                    extraEditorContent = { GoalPresetRow(modifier = Modifier.padding(top = 16.dp)) },
-                    onGoalDropped = onGoalDropped
+                    onSaveToFirebase = onSaveToFirebase
                 )
             } else {
                 CompactDashboard(
@@ -113,8 +105,7 @@ fun PhoneCompanionApp(repository: FirebaseRepository) {
                     onDecrease = onDecrease,
                     onIncrease = onIncrease,
                     onSendToWatch = onSendToWatch,
-                    onSaveToFirebase = onSaveToFirebase,
-                    onGoalDropped = onGoalDropped
+                    onSaveToFirebase = onSaveToFirebase
                 )
             }
         }
